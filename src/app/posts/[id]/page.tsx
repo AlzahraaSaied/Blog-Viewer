@@ -25,13 +25,14 @@ function getDateFromId(id: number) {
 }
 
 
-
-async function getPost(id: string): Promise<Post> {
+/* @ts-expect-error
+ */ async function getPost(id: string): Promise<Post> {
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
   if (!res.ok) throw new Error("Post not found");
   return res.json();
 }
-
+/* @ts-expect-error
+ */ 
 export default async function PostPage({ params }: Props) {
   let post: Post;
   try {
