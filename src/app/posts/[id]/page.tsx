@@ -20,7 +20,6 @@ function getDateFromId(id: number) {
   return `${weekday}, ${day} ${month}, ${year}`;
 }
 
-// ✅ Use destructuring for params with correct typing
 export async function generateMetadata({
   params,
 }: {
@@ -29,12 +28,14 @@ export async function generateMetadata({
   const res = await fetch(
     `https://jsonplaceholder.typicode.com/posts/${params.id}`
   );
+
   if (!res.ok) {
     return {
       title: "Post Not Found - Blog Viewer",
       description: "This post could not be loaded.",
     };
   }
+
   const post: Post = await res.json();
   return {
     title: `${post.title} - Blog Viewer`,
@@ -57,7 +58,7 @@ export default async function PostPage({
   try {
     post = await getPost(params.id);
   } catch (error) {
-    console.error("failed to get post", error);
+    console.error("Failed to get post", error);
     return <div className="p-4 text-red-500">Post not found.</div>;
   }
 
@@ -66,7 +67,6 @@ export default async function PostPage({
   return (
     <main className="container mx-auto p-4">
       <p className="text-sm font-semibold text-[#6941C6] mb-2">{date}</p>
-
       <h1 className="text-3xl font-bold mt-1 mb-3">{post.title}</h1>
       <img
         src={`https://picsum.photos/seed/${post.id}/1152/426`}
