@@ -1,9 +1,6 @@
 import { Post } from "@/types/post";
 import Link from "next/link";
-
-interface Props {
-  params: { id: string };
-}
+import { Metadata } from "next";
 
 function getDateFromId(id: number) {
   const baseDate = new Date(2023, 0, 1);
@@ -24,9 +21,9 @@ function getDateFromId(id: number) {
   return `${weekday}, ${day} ${month}, ${year}`;
 }
 
-export async function generateMetadata(props: Props) {
-  const { params } = props;
-
+export async function generateMetadata(
+  { params }: { params: { id: string } }
+): Promise<Metadata> {
   const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`);
   if (!res.ok) {
     return {
@@ -47,7 +44,7 @@ async function getPost(id: string): Promise<Post> {
   return res.json();
 }
 
-export default async function PostPage({ params }: Props) {
+export default async function PostPage({ params }: { params: { id: string } }) {
   let post: Post;
   try {
     post = await getPost(params.id);
